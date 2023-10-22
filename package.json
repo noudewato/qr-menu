@@ -1,0 +1,38 @@
+{
+  "name": "qr-menu",
+  "version": "1.0.0",
+  "description": "qr-menu",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server/server",
+    "server": "nodemon server/server.js",
+    "client": "npm start ---prefix client",
+    "dev": "concurrently \"npm run server\"  \" npm run client \"",
+    "data:import": "node server/seeder",
+    "data:destroy": "node server/seeder -d"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Noudewato/noudewato-fawaz.git"
+  },
+  "author": "Fawaz Noudewato",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Noudewato/noudewato-fawaz/issues"
+  },
+  "homepage": "https://github.com/Noudewato/noudewato-fawaz#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.4",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "nodemon": "^2.0.20"
+  }
+}

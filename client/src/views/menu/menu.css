@@ -1,0 +1,112 @@
+/* {
+   display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  margin: auto; 
+  background-color: whitesmoke;
+  margin-top: -3rem;
+  border-radius: 1rem;
+  position: relative;
+} */
+
+ .menuContent{
+  height: auto;
+  display: flex;
+  /* justify-content: space-around; */
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 4px 8px 4px 0px rgba(0, 0, 0, 0.5);
+}
+
+ .menuContent img{
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border: 3px solid goldenrod;
+  margin-right: 10px;
+  border-radius: 10px;
+}
+
+.menuDetails{
+ width: 100%;
+}
+
+.menuDetailsHeader{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 0.5px solid gray;
+  padding: 10px;
+}
+
+.menuDetailsHeader .menuTitle{
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.menuDetailsHeader .menuPrice{
+  font-size: 16px;
+  font-weight: bold;
+  color: red;
+}
+
+.menuDesc{
+  text-align: left;
+  padding: 10px;
+  text-transform: capitalize;
+}
+
+.menu__search{
+    width: 60%;
+    padding: 7px 8px;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    margin: 1rem 0 2rem;
+}
+
+.backIcon{
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    padding: .5rem;
+    border: 1px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.backIcon:hover{
+    background-color: rgba(48, 31, 31, 0.27);
+}
+
+@media only screen and (max-width:600px) {
+
+    .menuDetailsHeader{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0.5px solid gray;
+  padding: 5px 0;
+}
+
+.menuDetailsHeader .menuTitle{
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+     .menuContent img{
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 3px solid goldenrod;
+  margin-right: 10px;
+  border-radius: 10px;
+}
+
+.menuDesc{
+  text-align: left;
+  padding: 10px 0;
+  text-transform: capitalize;
+  font-size: 10px;
+}
+}
