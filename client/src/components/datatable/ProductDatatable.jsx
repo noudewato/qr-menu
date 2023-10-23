@@ -457,20 +457,6 @@ export default function ProductDatatable() {
     )
   }
 
-  // const getSeverity = (status) => {
-  //   switch (status) {
-  //     case 'true':
-  //       return 'success'
-
-  //     case 'false':
-  //       return 'danger'
-  //   }
-  // }
-
-  // const isActiveItemTemplate = (rowData) => {
-  //   return <Tag value={rowData.isActive} severity={getSeverity(rowData.isActive)} />
-  // }
-
   return (
     <div>
       <Toast ref={toast} />
@@ -540,7 +526,7 @@ export default function ProductDatatable() {
             </Column>
 
             <Column
-              field={'user.name'}
+              field={'user.username'}
               header="Created By"
               sortable
               style={{ minWidth: '10rem' }}

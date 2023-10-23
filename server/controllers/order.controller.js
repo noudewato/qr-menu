@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Order = require("../models/order.model");
 
 const addOrderItems = asyncHandler(async (req, res) => {
-  const { username, table, orderItems, itemsPrice } = req.body;
+  const { username, orderItems, itemsPrice, tablePosition } = req.body;
 
   if (orderItems && orderItems.lenght === 0) {
     res.status(400);
@@ -11,9 +11,9 @@ const addOrderItems = asyncHandler(async (req, res) => {
   } else {
     const order = new Order({
       username,
-      table,
       orderItems,
       itemsPrice,
+      tablePosition,
     });
 
     const createdOrder = await order.save();
@@ -28,10 +28,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 });
 
 const getOrderById = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id).populate(
-    "user",
-    "name email"
-  );
+  const order = await Order.findById(req.params.id)
   if (order) {
     res.json(order);
   } else {
@@ -77,7 +74,7 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
   if (order) {
     order.status = order.status + 1;
     const updatedOrderStatus = await order.save();
-    res.json({ updatedOrderStatus, success: true, msg: "your order is ready" });
+    res.json(updatedOrderStatus);
   } else {
     res.status(404);
     throw new Error("Order Not found");
@@ -90,10 +87,8 @@ const GetMyOrders = asyncHandler(async (req, res) => {
 });
 
 const GetOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({})
-    .populate("user", "id name email")
-    .sort({ createdAt: -1 });
-  res.json({ success: true, orders });
+  const orders = await Order.find({}).sort({ createdAt: -1 });
+  res.json(orders);
 });
 
 module.exports = {

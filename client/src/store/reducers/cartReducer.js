@@ -61,7 +61,6 @@ export const cartReducer = (state = { cartItems: [], deliverAddress: {} }, actio
     case CLEAR_CART:
       return {
         cartItems: [],
-        deliverAddress: {},
       }
 
     default:

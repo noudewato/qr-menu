@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Navbar from '../../components/navbar/Navbar'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import ControlPointIcon from '@mui/icons-material/ControlPoint'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
-import { classNames } from 'primereact/utils'
+import { Toast } from 'primereact/toast'
 import {
   Stack,
   Typography,
@@ -14,28 +14,66 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Avatar,
   Box,
   IconButton,
   Link,
   Button,
 } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart, reduceItemFromCart, removeFromCart } from '../../store/actions/cartActions'
+import {
+  addToCart,
+  clearCart,
+  reduceItemFromCart,
+  removeFromCart,
+} from '../../store/actions/cartActions'
 import { TableListAction } from '../../store/actions/tableActions'
-import { InputText } from 'primereact/inputtext'
+import { addOrder } from '../../store/actions/orderActions'
+import { CLEAR_CART } from '../../store/constants/cartConstants'
+import { useNavigate } from 'react-router-dom'
+import { ORDER_CREATE_RESET } from '../../store/constants/orderConstants'
+import Footer from '../../components/footer/Footer'
+import { Loader } from '../../components/Loader'
 
 const Cart = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const cart = useSelector((state) => state.cart)
   const { cartItems } = cart
+
+  const createOrder = useSelector((state) => state.createOrder)
+  const { loading, success, createdOrder, error } = createOrder
+
   const [username, setUsername] = useState('')
   const [tablePosition, setTablePositon] = useState('')
+  const [user, setUser] = useState('')
+  const [table, setTable] = useState('')
+  const [orderItems, setOrderItems] = useState(cartItems)
   const [submitted, setSubmitted] = useState(false)
+  const toast = useRef(null)
+
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const setTimer = setTimeout(() => {
+      if (isLoading) {
+        setIsLoading(false)
+      }
+    }, 3500)
+
+    return () => clearTimeout(setTimer)
+  }, [isLoading])
 
   const tableList = useSelector((state) => state.tableList)
   const { tables } = tableList
 
+  console.log(username, tablePosition)
+
+  useEffect(() => {
+    setOrderItems(cartItems)
+    setUser(username)
+    setTable(tablePosition)
+  }, [cartItems, username, tablePosition])
+  console.log(orderItems)
   const [countCartItem, setCountCartItem] = useState(0)
   useEffect(() => {
     const count = cartItems.reduce((acc, item) => acc + item.qty, 0)
@@ -46,37 +84,77 @@ const Cart = () => {
     dispatch(TableListAction())
   }, [dispatch])
 
+  useEffect(() => {
+    if (success) {
+      setUser('')
+      setTable('')
+
+      toast.current.show({
+        severity: 'success',
+        summary: 'successful',
+        detail: `${createdOrder?.message}`,
+        life: 3000,
+      })
+      dispatch(clearCart())
+    }
+  }, [createdOrder, success, dispatch])
+
+  useEffect(() => {
+    const setTimer = setTimeout(() => {
+      if (success) {
+        dispatch({
+          type: ORDER_CREATE_RESET,
+        })
+        navigate('/menu')
+      }
+    }, 3200)
+    return () => clearTimeout(setTimer)
+  }, [dispatch, navigate, success])
+
+  useEffect(() => {
+    if (error) {
+      setUser('')
+      setTable('')
+      toast.current.show({
+        severity: 'error',
+        summary: 'failed',
+        detail: `${error}`,
+        life: 3000,
+      })
+    }
+  }, [error])
+
   const addRoundedNumber = (num) => Math.round(num * 100 + Number.EPSILON) / 100
 
   cartItems.itemsPrice = addRoundedNumber(
     cartItems.reduce((acc, item) => acc + item.qty * item.price, 0),
   )
 
-  cartItems.taxPrice = addRoundedNumber(0.12 * cartItems.itemsPrice)
+  const itemsPrice = cartItems.itemsPrice
 
-  cartItems.deliveryPrice =
-    cartItems.itemsPrice > 100 ? addRoundedNumber(0.2 * cartItems.itemsPrice) : addRoundedNumber(0)
+  console.log(itemsPrice)
 
-  cartItems.totalPrice = addRoundedNumber(cartItems.itemsPrice + cartItems.taxPrice)
-
-  const orthers = [
-    { name: 'SubTotal', price: cartItems.itemsPrice },
-    { name: 'TaxPrice', price: cartItems.taxPrice },
-    {
-      name: 'DeliveryPrice',
-      price: cartItems.deliveryPrice === 0 ? 'Free' : cartItems.deliveryPrice,
-    },
-  ]
+  const placeOrder = (e) => {
+    if (!username || !tablePosition) {
+      setSubmitted(true)
+    } else {
+      e.preventDefault()
+      dispatch(addOrder({ username: user, orderItems, itemsPrice, tablePosition: table }))
+    }
+  }
 
   return (
     <div>
       <Navbar />
-      <Stack sx={{ margin: '5rem' }}>
-        {cartItems?.length === 0 ? (
+      <Toast ref={toast} />
+      <Stack sx={{ margin: '2rem', minHeight: '80vh' }}>
+        {isLoading ? (
+          <Loader />
+        ) : cartItems?.length === 0 ? (
           <Grid>
-            <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '10px', boxShadow: 3 }}>
-              <Typography variant="h6">
-                Your Cart is empty <Link href="/menu">Go back</Link>
+            <Box sx={{ p: 4, backgroundColor: 'white', borderRadius: '10px', boxShadow: 2 }}>
+              <Typography variant="h4">
+                Your Cart is empty <Link href="/#/menu">Go back</Link>
               </Typography>
             </Box>
           </Grid>
@@ -111,8 +189,18 @@ const Cart = () => {
                         <TableRow key={cartItem._id}>
                           <TableCell component="th" scope="row" padding="2px">
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={cartItem.name} src={cartItem.image} />
-                              <Typography variant="subtitle2" noWrap>
+                              <img
+                                src={cartItem.image}
+                                alt={cartItem.name}
+                                style={{
+                                  width: '200px',
+                                  height: '100px',
+                                  border: '2px solid grey',
+                                  borderRadius: '1rem',
+                                  objectFit: 'cover',
+                                }}
+                              />
+                              <Typography variant="subtitle2" Wrap>
                                 {cartItem.name}
                               </Typography>
                             </Stack>
@@ -158,6 +246,17 @@ const Cart = () => {
                           </TableCell>
                         </TableRow>
                       ))}
+                      <TableRow>
+                        <TableCell rowSpan={4} />
+                        <TableCell colSpan={2}>Total</TableCell>
+                        <TableCell align="center">
+                          GHs
+                          {cartItems &&
+                            cartItems
+                              .reduce((acc, item) => acc + item.qty * item.price, 0)
+                              .toFixed(2)}
+                        </TableCell>
+                      </TableRow>
                     </TableBody>
                   </Table>
                 </TableContainer>
@@ -165,6 +264,7 @@ const Cart = () => {
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <Box
+                component="form"
                 sx={{
                   backgroundColor: 'white',
                   borderRadius: '10px',
@@ -180,7 +280,7 @@ const Cart = () => {
                   <div className="field mb-2">
                     <label htmlFor="name" className="font-bold mb-2" style={{ fontWeight: 'bold' }}>
                       Category Group
-                    </label>{' '}
+                    </label>
                     <br />
                     <select
                       value={tablePosition}
@@ -226,7 +326,7 @@ const Cart = () => {
                         borderRadius: '6px',
                         outlineColor: 'ligthgrey',
                       }}
-                      id="name"
+                      id="username"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       required
@@ -237,15 +337,22 @@ const Cart = () => {
                     {submitted && !username && <small className="p-error">Name is required.</small>}
                   </div>
                 </Stack>
-              </Box>
 
-              <Button variant="contained" color="success" fullWidth sx={{ color: 'white' }}>
-                Continue
-              </Button>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  sx={{ color: 'white', backgroundColor: 'gold' }}
+                  onClick={placeOrder}
+                  disabled={!username || !tablePosition}
+                >
+                  {loading && <>.....</>} Place Order
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         )}
       </Stack>
+      <Footer />
     </div>
   )
 }

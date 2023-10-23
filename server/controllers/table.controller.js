@@ -30,7 +30,7 @@ const getTables = asyncHandler(async (req, res) => {
   const alltable = await table
     .find()
     .sort({ tablePosition: "asc" })
-    .populate("user", "name");
+    .populate("user", "username");
 
   if (alltable) {
     res.status(200).json(alltable);

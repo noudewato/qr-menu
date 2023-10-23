@@ -52,7 +52,7 @@ const getAllCategory = asyncHandler(async (req, res) => {
   const allCategory = await category
     .find()
     .sort({ name: "ascending" })
-    .populate("user", "name");
+    .populate("user", "username");
 
   if (allCategory) {
     res.status(200).json(allCategory);

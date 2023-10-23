@@ -405,7 +405,7 @@ export default function CategoryGroupDatatable() {
               style={{ minWidth: '12rem', fontWeight: '600' }}
             ></Column>
             <Column
-              field={'user.name'}
+              field={'user.username'}
               header="Created By"
               sortable
               style={{ minWidth: '10rem' }}

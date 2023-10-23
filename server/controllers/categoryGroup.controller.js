@@ -25,17 +25,17 @@ const createCategoryGroup = asyncHandler(async (req, res) => {
 });
 
 const getAllCategoryGroup = asyncHandler(async (req, res) => {
-
-  let categoryGroup = CategoryGroup.find()
+  let categoryGroup = CategoryGroup.find();
 
   if (req.query.name) {
     categoryGroup = categoryGroup.find({
       name: { $regex: req.query.name, $options: "i" },
     });
   }
-  const allCategoryGroup = await categoryGroup.find()
-    .sort({ name: "descending" })
-    .populate("user", "name")
+  const allCategoryGroup = await categoryGroup
+    .find()
+    .sort({ createdAt: 1 })
+    .populate("user", "username")
     .populate("categories");
 
   if (allCategoryGroup) {
@@ -47,7 +47,9 @@ const getAllCategoryGroup = asyncHandler(async (req, res) => {
 });
 
 const getCategoryGroupById = asyncHandler(async (req, res) => {
-  const categoryGroup = await CategoryGroup.findById(req.params.id).populate("categories");
+  const categoryGroup = await CategoryGroup.findById(req.params.id).populate(
+    "categories"
+  );
 
   if (categoryGroup) {
     res.status(200).json(categoryGroup);
@@ -84,7 +86,7 @@ const deleteCategoryGroup = asyncHandler(async (req, res) => {
 
 module.exports = {
   createCategoryGroup,
-    getAllCategoryGroup,
+  getAllCategoryGroup,
   getCategoryGroupById,
   updateCategoryGroup,
   deleteCategoryGroup,

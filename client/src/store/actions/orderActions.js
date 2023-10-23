@@ -14,24 +14,13 @@ import {
   ORDER_UPDATE_STATUS_FAIL,
 } from '../constants/orderConstants'
 
-export const addOrder = (order) => async (dispatch, getState) => {
+export const addOrder = (order) => async (dispatch) => {
   try {
     dispatch({
       type: ORDER_CREATE_REQUEST,
     })
 
-    const {
-      userLogin: { userInfo },
-    } = getState()
-
-    const config = {
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    }
-
-    const { data } = await axios.post('/api/orders', order, config)
+    const { data } = await axios.post('/api/orders', order)
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,
@@ -78,7 +67,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
   }
 }
 
-export const getOrderList = () => async (dispatch, getState) => {
+export const GetOrderList = () => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_LIST_REQUEST,

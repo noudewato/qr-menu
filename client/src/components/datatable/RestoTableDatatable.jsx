@@ -9,12 +9,6 @@ import { Toolbar } from 'primereact/toolbar'
 import { Dialog } from 'primereact/dialog'
 import { InputText } from 'primereact/inputtext'
 import {
-  CategoryGroupCreateAction,
-  CategoryGroupListAction,
-  CategoryGroupDeleteAction,
-  CategoryGroupUpdateAction,
-} from '../../store/actions/categoryGroupAction'
-import {
   TableCreateAction,
   TableDeleteAction,
   TableListAction,
@@ -53,7 +47,6 @@ export default function RestoTableDatatable() {
   const [tableP, settableP] = useState(emptyTablePosition)
   const [selectedCategoryGroup, setSelectedCategoryGroup] = useState({})
   const [submitted, setSubmitted] = useState(false)
-  //   const [globalFilter, setGlobalFilter] = useState('')
   const toast = useRef(null)
   const dt = useRef(null)
   const [tablePosition, setTablePosition] = useState('')
@@ -395,10 +388,10 @@ export default function RestoTableDatatable() {
               style={{ minWidth: '12rem', fontWeight: '600' }}
             ></Column>
             <Column
-              field={'user.name'}
+              field={'user.username'}
               header="Created By"
               sortable
-              style={{ minWidth: '10rem' }}
+              style={{ minWidth: '8rem' }}
             ></Column>
             <Column
               field={'createdAt'}

@@ -1,23 +1,24 @@
 import React from 'react'
-import { CAvatar, CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle } from '@coreui/react'
+import { CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle } from '@coreui/react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { LogoutUserAction } from '../../store/actions/userActions'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
-import avatar8 from './../../assets/images/avatars/8.jpg'
+import { Avatar } from '@mui/material'
 
 const AppHeaderDropdown = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
-        <CAvatar src={avatar8} size="md" />
+        <Avatar src={userInfo && userInfo?.image} alt="image" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-        <CDropdownItem href="#">
+        <CDropdownItem href={`/#/user-profile/${userInfo && userInfo._id}`}>
           <CIcon icon={cilUser} className="me-2" />
           Profile
         </CDropdownItem>

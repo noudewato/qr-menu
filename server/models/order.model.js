@@ -39,10 +39,9 @@ const orderSchema = new mongoose.Schema(
       default: 0.0,
     },
 
-    table: {
-      type: mongoose.Schema.Types.ObjectId,
+    tablePosition: {
+      type: String,
       required: true,
-      ref: "Table",
     },
 
     status: {

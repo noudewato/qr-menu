@@ -1,47 +1,42 @@
-import React from 'react'
-import {
-  CRow,
-  CCol,
-  CDropdown,
-  CDropdownMenu,
-  CDropdownItem,
-  CDropdownToggle,
-  CWidgetStatsA,
-} from '@coreui/react'
+import React, { useEffect } from 'react'
+import { CRow, CCol, CWidgetStatsA } from '@coreui/react'
 import { getStyle } from '@coreui/utils'
 import { CChartBar, CChartLine } from '@coreui/react-chartjs'
-import CIcon from '@coreui/icons-react'
-import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { GetOrderList } from '../../store/actions/orderActions'
+import { TableListAction } from '../../store/actions/tableActions'
+import { CategoriesListAction } from '../../store/actions/categoryActions'
+import { ProductListAction } from '../../store/actions/productActions'
 
 const WidgetsDropdown = () => {
+  const dispatch = useDispatch()
+
+  const orderList = useSelector((state) => state.orderList)
+  const { orders } = orderList
+
+  const tableList = useSelector((state) => state.tableList)
+  const { tables } = tableList
+
+  const categoryList = useSelector((state) => state.categoryList)
+  const { categories } = categoryList
+
+  const productList = useSelector((state) => state.productList)
+  const { products } = productList
+
+  useEffect(() => {
+    dispatch(GetOrderList())
+    dispatch(ProductListAction())
+    dispatch(TableListAction())
+    dispatch(CategoriesListAction())
+  }, [dispatch])
   return (
     <CRow>
       <CCol sm={6} lg={3}>
         <CWidgetStatsA
           className="mb-4"
           color="primary"
-          value={
-            <>
-              26K{' '}
-              <span className="fs-6 fw-normal">
-                (-12.4% <CIcon icon={cilArrowBottom} />)
-              </span>
-            </>
-          }
-          title="Users"
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="p-0">
-                <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
-              </CDropdownToggle>
-              <CDropdownMenu>
-                <CDropdownItem>Action</CDropdownItem>
-                <CDropdownItem>Another action</CDropdownItem>
-                <CDropdownItem>Something else here...</CDropdownItem>
-                <CDropdownItem disabled>Disabled action</CDropdownItem>
-              </CDropdownMenu>
-            </CDropdown>
-          }
+          value={<>{orders && orders.length}</>}
+          title="Orders"
           chart={
             <CChartLine
               className="mt-3 mx-3"
@@ -107,28 +102,8 @@ const WidgetsDropdown = () => {
         <CWidgetStatsA
           className="mb-4"
           color="info"
-          value={
-            <>
-              $6.200{' '}
-              <span className="fs-6 fw-normal">
-                (40.9% <CIcon icon={cilArrowTop} />)
-              </span>
-            </>
-          }
-          title="Income"
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="p-0">
-                <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
-              </CDropdownToggle>
-              <CDropdownMenu>
-                <CDropdownItem>Action</CDropdownItem>
-                <CDropdownItem>Another action</CDropdownItem>
-                <CDropdownItem>Something else here...</CDropdownItem>
-                <CDropdownItem disabled>Disabled action</CDropdownItem>
-              </CDropdownMenu>
-            </CDropdown>
-          }
+          value={tables && tables.length}
+          title="Tables"
           chart={
             <CChartLine
               className="mt-3 mx-3"
@@ -193,28 +168,8 @@ const WidgetsDropdown = () => {
         <CWidgetStatsA
           className="mb-4"
           color="warning"
-          value={
-            <>
-              2.49{' '}
-              <span className="fs-6 fw-normal">
-                (84.7% <CIcon icon={cilArrowTop} />)
-              </span>
-            </>
-          }
-          title="Conversion Rate"
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="p-0">
-                <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
-              </CDropdownToggle>
-              <CDropdownMenu>
-                <CDropdownItem>Action</CDropdownItem>
-                <CDropdownItem>Another action</CDropdownItem>
-                <CDropdownItem>Something else here...</CDropdownItem>
-                <CDropdownItem disabled>Disabled action</CDropdownItem>
-              </CDropdownMenu>
-            </CDropdown>
-          }
+          value={categories && categories.length}
+          title="Categories"
           chart={
             <CChartLine
               className="mt-3"
@@ -266,28 +221,8 @@ const WidgetsDropdown = () => {
         <CWidgetStatsA
           className="mb-4"
           color="danger"
-          value={
-            <>
-              44K{' '}
-              <span className="fs-6 fw-normal">
-                (-23.6% <CIcon icon={cilArrowBottom} />)
-              </span>
-            </>
-          }
-          title="Sessions"
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="p-0">
-                <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
-              </CDropdownToggle>
-              <CDropdownMenu>
-                <CDropdownItem>Action</CDropdownItem>
-                <CDropdownItem>Another action</CDropdownItem>
-                <CDropdownItem>Something else here...</CDropdownItem>
-                <CDropdownItem disabled>Disabled action</CDropdownItem>
-              </CDropdownMenu>
-            </CDropdown>
-          }
+          value={products && products.length}
+          title="Products"
           chart={
             <CChartBar
               className="mt-3 mx-3"

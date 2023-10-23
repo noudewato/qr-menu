@@ -5,7 +5,7 @@ const Category = require("../models/category.model");
 const getProducts = asyncHandler(async (req, res) => {
   const products = await Product.find()
     .sort({ name: "ascending" })
-    .populate("user", "name");
+    .populate("user", "username");
   res.json(products);
 });
 

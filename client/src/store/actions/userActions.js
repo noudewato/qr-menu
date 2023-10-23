@@ -69,38 +69,41 @@ export const LogoutUserAction = () => (dispatch) => {
   })
 }
 
-export const CreateUserAction = (fullName, username, phoneNumber, isAdmin) => async (dispatch) => {
-  try {
-    dispatch({
-      type: USER_REGISTER_REQUEST,
-    })
+export const CreateUserAction =
+  (fullName, username, password, phoneNumber, isAdmin) => async (dispatch) => {
+    try {
+      dispatch({
+        type: USER_REGISTER_REQUEST,
+      })
 
-    const config = {
-      headers: {
-        'content-type': 'application/json',
-      },
+      const config = {
+        headers: {
+          'content-type': 'application/json',
+        },
+      }
+
+      const { data } = await axios.post(
+        '/api/users',
+        { fullName, username, password, phoneNumber, isAdmin },
+        config,
+      )
+
+      dispatch({
+        type: USER_REGISTER_SUCCESS,
+        payload: data,
+      })
+    } catch (error) {
+      dispatch({
+        type: USER_REGISTER_FAILED,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
     }
-
-    const { data } = await axios.post(
-      '/api/users',
-      { fullName, phoneNumber, username, isAdmin },
-      config,
-    )
-
-    dispatch({
-      type: USER_REGISTER_SUCCESS,
-      payload: data,
-    })
-  } catch (error) {
-    dispatch({
-      type: USER_REGISTER_FAILED,
-      payload:
-        error.response && error.response.data.message ? error.response.data.message : error.message,
-    })
   }
-}
 
-export const getUserProfile = (id) => async (dispatch, getState) => {
+export const GetUserProfileAction = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_DETAILS_REQUEST,
@@ -132,7 +135,7 @@ export const getUserProfile = (id) => async (dispatch, getState) => {
   }
 }
 
-export const userUpdateProfile = (user) => async (dispatch, getState) => {
+export const UpdateUserProfileAction = (user) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_UPDATE_PROFILE_DETAILS_REQUEST,

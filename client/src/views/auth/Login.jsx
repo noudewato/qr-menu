@@ -46,9 +46,6 @@ const Login = () => {
         life: 3000,
       })
       navigate('/dashboard')
-      // dispatch({
-      //   type: USER_LOGIN_RESET,
-      // })
     }
   }, [navigate, success])
 

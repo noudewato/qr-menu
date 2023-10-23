@@ -101,7 +101,7 @@ export default function UserDatatable() {
       setSubmitted(true)
     } else {
       e.preventDefault()
-      dispatch(CreateUserAction(fullName, username, phoneNumber, isAdmin))
+      dispatch(CreateUserAction({ fullName, username, password: '123456', phoneNumber, isAdmin }))
       setCategoryGDialog(false)
     }
   }

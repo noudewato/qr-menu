@@ -1,7 +1,6 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
-  cilChartPie,
   cilSpeedometer,
   cilBlurLinear,
   cilFastfood,
@@ -10,7 +9,7 @@ import {
   cilHealing,
   cilRestaurant,
 } from '@coreui/icons'
-import { CNavGroup, CNavItem} from '@coreui/react'
+import { CNavGroup, CNavItem } from '@coreui/react'
 
 const _nav = [
   {
@@ -56,7 +55,7 @@ const _nav = [
     icon: <CIcon icon={cilCart} customClassName="nav-icon" />,
     badge: {
       color: 'danger',
-      text: 'NEW',
+      text: 'new Order',
     },
   },
   {
@@ -70,13 +69,6 @@ const _nav = [
     name: 'Table Menu',
     to: '/menu',
     icon: <CIcon icon={cilRestaurant} customClassName="nav-icon" />,
-  },
-
-  {
-    component: CNavItem,
-    name: 'Charts',
-    to: '/charts',
-    icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
   },
 ]
 

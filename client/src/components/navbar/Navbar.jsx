@@ -15,11 +15,15 @@ const Navbar = () => {
 
   return (
     <CHeader position="sticky" className="mb-4">
-      <CContainer fluid className="px-5">
+      <CContainer fluid>
         <CHeaderNav className="flex me-auto font-bold">
           <CNavItem>
-            <CNavLink to="/menu" component={NavLink}>
-              <CIcon icon={cilRestaurant} size="lg" />
+            <CNavLink
+              to="/menu"
+              component={NavLink}
+              style={{ fontWeight: 'bold', fontSize: '18px' }}
+            >
+              <CIcon icon={cilRestaurant} size="lg" style={{ color: 'gold' }} />
               TableMenu
             </CNavLink>
           </CNavItem>
@@ -27,9 +31,9 @@ const Navbar = () => {
         <CHeaderNav>
           <CNavItem>
             <CNavLink to="/cart" component={NavLink} className="position-relative">
-              <CIcon icon={cilCart} size="lg" />
+              <CIcon icon={cilCart} size="lg" style={{ fontWeight: 'bold', fontSize: '18px' }} />
               <CBadge
-                className="border border-light p-2"
+                className="border border-light p-1"
                 color="danger"
                 position="top-end"
                 shape="rounded-circle"
@@ -41,8 +45,18 @@ const Navbar = () => {
         </CHeaderNav>
         <CHeaderNav className="flex ms-auto">
           <CNavItem>
-            <CNavLink component={NavLink}>
-              <CIcon icon={cilPhone} size="lg" />
+            <CNavLink component={NavLink} style={{ fontWeight: 'bold', fontSize: '18px' }}>
+              <CIcon
+                icon={cilPhone}
+                size="lg"
+                style={{
+                  backgroundColor: 'gold',
+                  borderRadius: '50%',
+                  height: '20px',
+                  width: '20px',
+                  fontWeight: 'bold',
+                }}
+              />
               +233550601470
             </CNavLink>
           </CNavItem>

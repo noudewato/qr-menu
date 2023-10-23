@@ -16,8 +16,9 @@ const loginUser = asyncHandler(async (req, res, next) => {
   }
 
   const user = await User.findOne({ username });
+  const pass = await User.findOne({ password });
 
-  if (user /* && (await user.matchPassword(password))*/) {
+  if (user && pass /* && (await user.matchPassword(password))*/) {
     res.json({
       _id: user._id,
       username: user.username,
@@ -50,11 +51,10 @@ const getUserProfile = asyncHandler(async (req, res, next) => {
 });
 
 const createUser = asyncHandler(async (req, res, next) => {
-  const { fullName, username, phoneNumber, isAdmin } = req.body;
+  const { fullName, username, password, phoneNumber, isAdmin } = req.body;
 
-
-  if (!fullName || !username || !phoneNumber) {
-     throw new Error("All field are required");
+  if (!fullName || !username || !phoneNumber || !password) {
+    throw new Error("All field are required");
   }
 
   const userExists = await User.findOne({ username });
@@ -67,6 +67,7 @@ const createUser = asyncHandler(async (req, res, next) => {
   const user = await User.create({
     fullName,
     username,
+    password,
     phoneNumber,
     isAdmin,
   });
@@ -139,6 +140,7 @@ const getUserByID = asyncHandler(async (req, res, next) => {
     res.json({
       fullName: user.fullName,
       username: user.username,
+      phoneNumber: user.phoneNumber,
       image: user.image,
       password: user.password,
       isAdmin: user.isAdmin,

@@ -22,14 +22,13 @@ const userSchema = new mongoose.Schema(
       required: true,
       select: true,
       minlenght: 6,
-      default: "123456",
     },
 
     phoneNumber: {
       type: String,
       required: false,
       minlenght: 9,
-      unique: true
+      unique: true,
     },
 
     isAdmin: {
