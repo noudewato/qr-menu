@@ -81,7 +81,7 @@ const MenuList = () => {
                 {category?.products
                   ?.filter((product) => product.name.toLowerCase().includes(query))
                   .map((product) => (
-                    <Grid item lg={4} md={6} sm={12} xs={12} key={product._id}>
+                    <Grid item lg={4} md={6} sm={6} xs={12} key={product._id}>
                       <div
                         style={{
                           border: '.5px solid black',
