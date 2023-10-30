@@ -78,8 +78,8 @@ const MenuList = () => {
             </CRow>
             <CRow>
               <Grid container spacing={2}>
-                {category?.products
-                  ?.filter((product) => product.name.toLowerCase().includes(query))
+                {category.products
+                  .filter((product) => product.name.toLowerCase().includes(query))
                   .map((product) => (
                     <Grid item lg={4} md={6} sm={6} xs={12} key={product._id}>
                       <div

@@ -111,6 +111,18 @@ const Cart = () => {
     return () => clearTimeout(setTimer)
   }, [dispatch, navigate, success])
 
+
+    useEffect(() => {
+      const setTimer = setTimeout(() => {
+        if (error) {
+          dispatch({
+            type: ORDER_CREATE_RESET,
+          })
+        }
+      }, 3200)
+      return () => clearTimeout(setTimer)
+    }, [dispatch, navigate, error])
+
   useEffect(() => {
     if (error) {
       setUser('')

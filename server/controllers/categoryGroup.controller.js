@@ -1,11 +1,12 @@
 const CategoryGroup = require("../models/categoryGroup.model");
+const Categories = require("../models/categorym.model");
 const asyncHandler = require("express-async-handler");
 
 const createCategoryGroup = asyncHandler(async (req, res) => {
   req.body.user = req.user.id;
   const { name } = req.body;
 
-  const newCategoryGroup = new CategoryGroup(req.body);
+  const newCategoryGroup =ies(req.body);
 
   const existingCategoryGroup = await CategoryGroup.findOne({ name });
 
