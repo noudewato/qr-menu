@@ -24,8 +24,8 @@ const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('Fawaz')
+  const [password, setPassword] = useState('123456')
   const toast = useRef(null)
 
   const userLogin = useSelector((state) => state.userLogin)
@@ -80,7 +80,6 @@ const Login = () => {
                   <CForm>
                     <h1>Login</h1>
                     <p className="text-medium-emphasis">Sign In to your account</p>
-                    <p>Username:Fawaz , Password:123456</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
