@@ -35,6 +35,10 @@ const MenuList = () => {
 
   const [query, setQuery] = useState('')
 
+  const capitalizeFirstLetter = (text) => {
+    return text.trim().charAt(0).toUpperCase() + text.slice(1)
+  }
+
   return (
     <div className="Menu">
       <Navbar />
@@ -46,17 +50,24 @@ const MenuList = () => {
           <CContainer>
             <CRow>
               <CCol
+                // sm="12"
+                // md="6"
+                // lg="6"
                 style={{
-                  margin: '3rem 0 1.5rem .5rem',
+                  margin: '.5rem 0 1.5rem .5rem',
                   fontWeight: 'bold',
-                  fontSize: '16px',
+                  fontSize: '22px',
                 }}
               >
-                Click to place your order
+                Items found{' '}
+                <span style={{ color: 'lightgray' }}>({category?.products?.length})</span>
               </CCol>
               <CCol
+                // sm="12"
+                // md="6"
+                // lg="6"
                 style={{
-                  margin: '3rem 0 1.5rem',
+                  margin: '.5rem 0 1.5rem',
                 }}
               >
                 <input
@@ -84,18 +95,43 @@ const MenuList = () => {
                     <Grid item lg={4} md={6} sm={6} xs={12} key={product._id}>
                       <div
                         style={{
-                          border: '.5px solid black',
-                          height: '350px',
+                          position: 'relative',
+                          border: '.5px solid lightgray',
+                          height: '370px',
                           borderRadius: '1rem',
                           boxShadow: '0px 4px 8px rgb(239, 239, 239)',
                           cursor: 'pointer',
                         }}
                       >
                         <MenuCard product={product} />
+                        <div style={{ fontSize: '20px', padding: '7px' }}>
+                          {capitalizeFirstLetter(product.description)}
+                        </div>
                         <div
-                          style={{ fontSize: '18px', textTransform: 'lowercase', padding: '5px' }}
+                          style={{
+                            position: 'absolute',
+                            bottom: 0,
+                            backgroundColor: 'rgb(255, 235, 120)',
+                            padding: '8px',
+                            width: '100%',
+                            borderRadius: '1rem',
+                            textAlign: 'center',
+                            fontWeight: 'bold',
+                          }}
                         >
-                          {product.description}
+                          {product.name}{' '}
+                          <span
+                            style={{
+                              backgroundColor: 'red',
+                              color: 'white',
+                              fontWeight: 'bold',
+                              padding: '.5rem',
+                              borderRadius: '50%',
+                            }}
+                          >
+                            <span>₵</span>
+                            {product.price}
+                          </span>
                         </div>
                       </div>
                     </Grid>

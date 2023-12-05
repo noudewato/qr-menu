@@ -104,7 +104,6 @@ const MenuCard = ({ product }) => {
         onClick={addItem}
       >
         <ImageSrc style={{ backgroundImage: `url(${image})` }} />
-        <ImageBackdrop className="MuiImageBackdrop-root" />
         <Image>
           <Typography
             component="span"
@@ -116,22 +115,7 @@ const MenuCard = ({ product }) => {
               pt: 2,
               pb: (theme) => `calc(${theme.spacing(1)} + 6px)`,
             }}
-          >
-            {name}
-            <ImageMarked className="MuiImageMarked-root" />
-            <span
-              style={{
-                backgroundColor: 'red',
-                color: 'white',
-                fontWeight: 'bold',
-                padding: '.5rem',
-                borderRadius: '50%',
-              }}
-            >
-              <span>₵</span>
-              {price}
-            </span>
-          </Typography>
+          ></Typography>
         </Image>
       </ImageButton>
     </Box>

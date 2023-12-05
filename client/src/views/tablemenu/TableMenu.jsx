@@ -47,7 +47,7 @@ const TableMenu = () => {
           <Loader />
         ) : (
           <CContainer>
-            <CRow className="mt-5">
+            <CRow className="mt-4">
               <CCol sm="12" md="6" lg="6" style={{ display: 'flex', alignItems: 'center' }}>
                 {categoryGroup &&
                   categoryGroup.map((group) => (
@@ -70,7 +70,7 @@ const TableMenu = () => {
                     </span>
                   ))}
               </CCol>
-              <CCol sm="12" md="6" lg="6">
+              <CCol>
                 <input
                   type="text"
                   style={{
